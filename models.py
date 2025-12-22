@@ -34,3 +34,30 @@ class Kullanici(db.Model):
 
     def __repr__(self):
         return f"<Kullanici{self.kullanici_adi}>"
+    
+
+class Kategori(db.Model):
+    __tablename__ = "kategoriler"
+
+    id=db.Column(db.Integer,primary_key=True)
+    ad=db.Column(db.String(100),unique=True,nullable=False)
+
+    haberler=db.relationship("Haber",backref="kategori",lazy=True)
+
+    def to_dict(self):
+        return {
+            "id":self.id,
+            "ad":self.ad,
+            "haberler":[
+                {
+                    "id":h.id,
+                    "baslik":h.baslik,
+                    "yayimlanma_tarihi":h.yayimlanma_tarihi.isoformat(),
+                    "yayinda_mi":h.yayinda_mi
+                } 
+                for h in self.haberler
+            ]
+        }
+
+    def __repr__(self):
+        return f"<Kategori {self.ad}>"
