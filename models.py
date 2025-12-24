@@ -60,3 +60,36 @@ class Kategori(db.Model):
 
     def __repr__(self):
         return f"<Kategori {self.ad}>"
+    
+
+class Haber(db.Model):
+    __tablename__="haberler"
+
+    id=db.Column(db.Integer,primary_key=True)
+    baslik=db.Column(db.String(200),nullable=False)
+    icerik=db.Column(db.Text,nullable=False)
+    yayimlanma_tarihi=db.Column(db.DateTime,default=datetime.utcnow)
+    yayinda_mi=db.Column(db.Boolean,default=False)
+
+    kullanici_id=db.Column(db.Integer,db.ForeignKey("kullanicilar.id"),nullable=False)
+    kategori_id=db.Column(db.Integer,db.ForeignKey("kategoriler.id"),nullable=False)
+
+    def to_dict(self):
+        return {
+            "id":self.id,
+            "baslik":self.baslik,
+            "icerik":self.icerik,
+            "yayimlanma_tarihi":self.yayimlanma_tarihi.isoformat(),
+            "yayinda_mi":self.yayinda_mi,
+            "yazar":{
+                "id":self.yazar.id,
+                "kullanici_adi":self.yazar.kullanici_adi
+            },
+            "kategori":{
+                "id":self.kategori.id,
+                "ad":self.kategori.ad
+            }
+        }
+
+    def __repr__(self):
+        return f"<Haber {self.baslik}>"
