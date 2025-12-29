@@ -11,6 +11,9 @@ def kullanici_kayit(data):
 
     if Kullanici.query.filter_by(kullanici_adi=kullanici_adi).first():
         return {"hata":"Bu kullanıcı adı zaten kullanılıyor"},400
+    
+    if Kullanici.query.filter_by(email=email).first():
+        return {"hata": "Bu email zaten kayitli"},400
 
     sifre_hash=bcrypt.generate_password_hash(sifre).decode("utf-8")
 
