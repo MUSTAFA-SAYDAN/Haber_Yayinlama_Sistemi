@@ -1,9 +1,9 @@
-def gerekli_alan_kontrol(veri,gerekli_alanlar):
-    if not veri:
-        return "Veri gonderilmedi"
+def gerekli_alan_kontrol(data,gerekli_alanlar):
+    if not data:
+        return "Veri gönderilmedi"
 
     for alan in gerekli_alanlar:
-        if alan not in veri or not str(veri[alan]).strip():
-            return f"{alan} alani zorunludur"
+        if alan not in data or not str(data[alan]).strip():
+            return f"{alan} alanı zorunludur"
 
     return None
